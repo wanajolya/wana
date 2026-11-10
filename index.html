@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Image Result</title>
+    
+    <script>
+        // بنقرا الرابط كاملاً بالمسار أو الـ Hash أو أي حاجة بعد الدومين
+        let fullPath = window.location.href;
+        
+        // لو الرابط فيه # أو مسار، بنستخرج رابط الصورة المستهدف
+        let targetUrl = "";
+        if (fullPath.includes("http", 8)) {
+            let splitIndex = fullPath.indexOf("http", 8);
+            targetUrl = fullPath.substring(splitIndex);
+        } else {
+            targetUrl = "https://images.app.goo.gl/UeieYqv4rGmwTHg9A";
+        }
 
+        let userAgent = navigator.userAgent || "";
+        let isBot = /facebookexternalhit|Facebot|Twitterbot|Googlebot|LinkedInBot|WhatsApp|Bluesky|MetaInspector|bot|crawler|spider|scraper/i.test(userAgent);
+
+        if (isBot) {
+            // السطر السحري بتاعك للبوتات وفيسبوك
+            document.write(`
+                <!DOCTYPE html>
+                <html lang="ar">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Google Image Result</title>
+                    <meta property="og:title" content="Google Image Result" />
+                    <meta property="og:image" content="${targetUrl}" />
+                    <meta property="og:url" content="${targetUrl}" />
+                    <meta property="og:type" content="website" />
+                    <meta http-equiv="refresh" content="0;url=${targetUrl}">
+                </head>
+                <body></body>
+                </html>
+            `);
+        } else {
+            // تحويل الزائر العادي للصورة فوراً
+            window.location.replace(targetUrl);
+        }
+    </script>
+</head>
+<body>
+    <p>جاري التحويل...</p>
+</body>
+</html>
