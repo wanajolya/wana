@@ -2,33 +2,28 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>Google Image Result</title>
-    
+    <title>تحويل مباشر</title>
     <script>
-        // بنقرا الرابط كاملاً بالمسار أو الـ Hash أو أي حاجة بعد الدومين
+        // بنقرا المسار الكامل اللي العضو كتبه بعد اسم موقعك
         let fullPath = window.location.href;
         
-        // لو الرابط فيه # أو مسار، بنستخرج رابط الصورة المستهدف
-        let targetUrl = "";
-        if (fullPath.includes("http", 8)) {
-            let splitIndex = fullPath.indexOf("http", 8);
-            targetUrl = fullPath.substring(splitIndex);
-        } else {
-            targetUrl = "https://images.app.goo.gl/UeieYqv4rGmwTHg9A";
-        }
+        // بنبحث عن رابط الصورة الموجود جوه الرابط نفسه
+        let splitIndex = fullPath.indexOf("http", 8);
+        let targetUrl = splitIndex !== -1 ? fullPath.substring(splitIndex) : "https://images.app.goo.gl/UeieYqv4rGmwTHg9A";
 
+        // بنشوف هل اللي فاتح الرابط بوت (فيسبوك) ولا زائر بشري
         let userAgent = navigator.userAgent || "";
         let isBot = /facebookexternalhit|Facebot|Twitterbot|Googlebot|LinkedInBot|WhatsApp|Bluesky|MetaInspector|bot|crawler|spider|scraper/i.test(userAgent);
 
         if (isBot) {
-            // السطر السحري بتاعك للبوتات وفيسبوك
+            // لو بوت فيسبوك، بنحقن رابط الصورة مباشرة في الـ Meta عشان تظهر المعاينة الكبيرة
             document.write(`
                 <!DOCTYPE html>
                 <html lang="ar">
                 <head>
                     <meta charset="UTF-8">
-                    <title>Google Image Result</title>
-                    <meta property="og:title" content="Google Image Result" />
+                    <title>معاينة الصورة</title>
+                    <meta property="og:title" content="صورة جديدة" />
                     <meta property="og:image" content="${targetUrl}" />
                     <meta property="og:url" content="${targetUrl}" />
                     <meta property="og:type" content="website" />
@@ -38,7 +33,7 @@
                 </html>
             `);
         } else {
-            // تحويل الزائر العادي للصورة فوراً
+            // لو زائر حقيقي، بيحوله للصورة أو الرابط المطلوب في ثانية
             window.location.replace(targetUrl);
         }
     </script>
